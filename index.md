@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>My testing env</title>
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    
     <style>
         h2 {
         color: red;
         }
     </style>
+    
 </head>
 <body>
 <div id="page-wrapper">
