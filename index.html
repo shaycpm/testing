@@ -9,7 +9,11 @@
   OneSignal.push(function() {
     OneSignal.init({
       appId: "44f39e94-d6e6-427c-8c62-3c858c672ec3",
+        notifyButton: {
+        enable: true,
+        },
     });
+      OneSignal.showNativePrompt();
   });
 </script>
 </head>
