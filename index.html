@@ -6,10 +6,12 @@
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
         function testing() {
-            window.OneSignal = window.OneSignal || [];
-            OneSignal.push(function () {
-                OneSignal.init({
-                    appId: "44f39e94-d6e6-427c-8c62-3c858c672ec3",
+            Notification.requestPermission().then(function (result) {
+                window.OneSignal = window.OneSignal || [];
+                OneSignal.push(function () {
+                    OneSignal.init({
+                        appId: "44f39e94-d6e6-427c-8c62-3c858c672ec3",
+                    });
                 });
             });
         }
