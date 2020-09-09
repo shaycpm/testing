@@ -5,16 +5,13 @@
     <title>My testing env</title>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
-        function testing() {
-            window.OneSignal = window.OneSignal || [];
-            OneSignal.push(function () {
-                OneSignal.init({
-                    appId: "44f39e94-d6e6-427c-8c62-3c858c672ec3",
-                });
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: "44f39e94-d6e6-427c-8c62-3c858c672ec3",
             });
-        }
+        });
 
-        parent.postMessage("loadMyOrders", testing());
     </script>
 </head>
 <body>
