@@ -5,19 +5,93 @@
     <title>My testing env</title>
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
-        window.runTest = function () {
-            window.OneSignal = window.OneSignal || [];
-            OneSignal.push(function () {
-                OneSignal.init({
-                    appId: "44f39e94-d6e6-427c-8c62-3c858c672ec3",
-                });
-            });
-        }
-        // window.someVal = function () {
-        //     alert('Hello World');
-        // }
-        // window.someVal()
-        window.runTest();
+function isMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+}
+
+function detectMouseMovement() {
+    let addListener, removeListener;
+    if (document.addEventListener) {
+        addListener = function (el, evt, f) {
+            return el.addEventListener(evt, f, false);
+        };
+        removeListener = function (el, evt, f) {
+            return el.removeEventListener(evt, f, false);
+        };
+    } else {
+        addListener = function (el, evt, f) {
+            return el.attachEvent('on' + evt, f);
+        };
+        removeListener = function (el, evt, f) {
+            return el.detachEvent('on' + evt, f);
+        };
+    }
+
+    var myListener = function () {
+        removeListener(document, 'mousemove', myListener);
+        console.log('true')
+        return true;
+    };
+
+    addListener(document, 'mousemove', myListener);
+}
+
+
+function isSafari() {
+    return window.safari !== undefined;
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+window.OneSignal = window.OneSignal || [];
+OneSignal.push(function () {
+    OneSignal.init({
+        appId: "44f39e94-d6e6-427c-8c62-3c858c672ec3",
+        safari_web_id: "web.onesignal.auto.54cd441e-7f12-4aed-9845-f98eb5c10ecb",
+        notifyButton: {
+            enable: true,
+        },
+
+    });
+    // if (isSafari()) {
+    if (confirm('select')) {
+        window.setTimeout(function () {
+            OneSignal.showNativePrompt();
+        }, 1000)
+    }
+    // }
+    OneSignal.on('subscriptionChange', function (isSubscribed) {
+        OneSignal.getUserId(function (userId) {
+            if (isSubscribed) {
+                OneSignal.sendTag("device", urlParams.get('device'));
+                OneSignal.sendTag("country", urlParams.get('country'));
+                OneSignal.sendTag("os", urlParams.get('os'));
+                OneSignal.sendTag("isp", urlParams.get('isp'));
+                OneSignal.sendTag("source", urlParams.get('source'));
+                if (isMob()) {
+                    OneSignal.sendTag('platform', 'mobile');
+                } else {
+                    OneSignal.sendTag('platform', 'desktop');
+                }
+                let xhr = new XMLHttpRequest();
+
+                xhr.open("GET", "https://lotuspush.club/click.php?cnv_id=" + urlParams.get('cid'), true);
+                xhr.send(null);
+            }
+        });
+    });
+});
     </script>
 </head>
 <body>
